@@ -39,7 +39,7 @@ async function run() {
           break;
         }
         else {
-          for (index = 0; index < lenght; index++) {          
+          for (index = 0; index < workflows; index++) {          
             if (repo_workflow_name == response.data.workflows[index].name){
               repo_workflow_id = response.data.workflows[index].id;
               break;
