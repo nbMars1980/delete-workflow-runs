@@ -23,6 +23,10 @@ inputs:
     required: true
     default: 6
 
+  workflow_file_name:
+    description: 'The workflow file name.'
+    required: true
+    default: ""
 runs:
   using: 'node12'
   main: 'dist/index.js'

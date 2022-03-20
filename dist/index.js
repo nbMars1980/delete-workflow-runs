@@ -6,6 +6,7 @@ async function run() {
     const repository = core.getInput('repository');
     const retain_days = core.getInput('retain_days');
     const keep_minimum_runs = core.getInput('keep_minimum_runs');
+    const repo_workflow_id = core.getInput('workflow_file_name');
     
     // Split the input 'repository' (format {owner}/{repo}) to be {owner} and {repo}
     const splitRepository = repository.split('/');
@@ -14,7 +15,7 @@ async function run() {
     }
     const repo_owner = splitRepository[0];
     const repo_name = splitRepository[1];
-    const repo_workflow_id = splitRepository[2];
+    
     
     var page_number = 1;
     var del_runs = new Array();
@@ -31,7 +32,7 @@ async function run() {
         per_page: 100,
         page: page_number
       });
-      //console.log(response)
+      console.log(response.data.workflow_runs[0].name)
       const lenght = response.data.workflow_runs.length;
       
       if (lenght < 1) {
