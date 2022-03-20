@@ -5,8 +5,9 @@ async function run() {
     const token = core.getInput('token');
     const repository = core.getInput('repository');
     const retain_days = core.getInput('retain_days');
-    const keep_minimum_runs = core.getInput('keep_minimum_runs');
-    const repo_workflow_id = core.getInput('workflow_file_name');
+    const keep_minimum_runs = core.getInput('keep_minimum_runs');    
+    const repo_workflow_name = core.getInput('workflow_name');
+    var repo_workflow_id = core.getInput('workflow_file_name');
     
     // Split the input 'repository' (format {owner}/{repo}) to be {owner} and {repo}
     const splitRepository = repository.split('/');
@@ -22,6 +23,37 @@ async function run() {
     const { Octokit } = require("@octokit/rest");
     const octokit = new Octokit({ auth: token });
 
+    if(repo_workflow_id == "")
+    {
+      while (true) {
+        // Execute the API "List workflow runs for a repository", see 'https://octokit.github.io/rest.js/v18#actions-list-repo-workflows'
+        const response = await octokit.actions.listRepoWorkflows({
+          owner: repo_owner,
+          repo: repo_name,
+          per_page: 100,
+          page: page_number
+        });
+        const workflows = response.data.workflows.length;
+        
+        if (workflows < 1) {
+          break;
+        }
+        else {
+          for (index = 0; index < lenght; index++) {          
+            if (repo_workflow_name == response.data.workflows[index].name){
+              repo_workflow_id = response.data.workflows[index].id;
+              break;
+            }
+          }
+        }        
+        if (workflows < 100) {
+          break;
+        }
+        page_number++;
+      }
+    }
+    console.log(repo_workflow_id);
+    page_number = 1;
     while (true) {
       // Execute the API "List workflow runs for a repository", see 'https://octokit.github.io/rest.js/v18#actions-list-workflow-runs-for-repo'     
       //const response = await octokit.actions.listWorkflowRunsForRepo({

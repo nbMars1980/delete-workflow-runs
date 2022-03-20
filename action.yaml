@@ -12,6 +12,11 @@ inputs:
     description: 'The name of the repository.'
     required: true
     default: ${{ github.repository }}
+  
+  workflow_name:
+    description: 'The name of the repository.'
+    required: true
+    default: ${{ github.workflow }}
 
   retain_days:
     description: 'The number of days.'
