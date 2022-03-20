@@ -52,7 +52,7 @@ async function run() {
         page_number++;
       }
     }
-    console.log(repo_workflow_id);
+    //console.log(repo_workflow_id);
     page_number = 1;
     while (true) {
       // Execute the API "List workflow runs for a repository", see 'https://octokit.github.io/rest.js/v18#actions-list-workflow-runs-for-repo'     
@@ -64,7 +64,7 @@ async function run() {
         per_page: 100,
         page: page_number
       });
-      console.log(response.data.workflow_runs[0].name)
+      //console.log(response.data.workflow_runs[0].name)
       const lenght = response.data.workflow_runs.length;
       
       if (lenght < 1) {
@@ -94,7 +94,7 @@ async function run() {
       console.log(`No workflow runs need to be deleted.`);
     }
     else {
-      for (index = del_runs.length - 1; index < arr_length; index--) {
+      for (index = del_runs.length - 1; index >= arr_length; index--) {
         // Execute the API "Delete a workflow run", see 'https://octokit.github.io/rest.js/v18#actions-delete-workflow-run'
         const run_id = del_runs[index];
         await octokit.actions.deleteWorkflowRun({
