@@ -28,7 +28,7 @@ async function run() {
         per_page: 100,
         page: page_number
       });
-      
+      console.log(response)
       const lenght = response.data.workflow_runs.length;
       
       if (lenght < 1) {
